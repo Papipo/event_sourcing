@@ -1,6 +1,6 @@
 # EventSourcing
 
-TODO: Write a gem description
+EventSourcing, as its name suggests, is an Actor based Event Sourcing library for ruby.
 
 ## Installation
 

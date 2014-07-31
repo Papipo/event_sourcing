@@ -13,7 +13,8 @@ describe EventSourcing::Application do
 
     let(:running_app) { sample_app.run!(event_store: event_store) }
     let(:event_store) { instance_double("EventSourcing::Event::Store::Memory") }
-    let(:actor_class) { class_double("EventSourcing::Application::Actor").as_stubbed_const(transfer_nested_constants: true) }
+    #FIXME Remove to_str. It's only needed for specs to pass under jruby
+    let(:actor_class) { class_double("EventSourcing::Application::Actor", to_str: "EventSourcing::Application::Actor").as_stubbed_const(transfer_nested_constants: true) }
     let(:actor_reference) { instance_double("EventSourcing::Application::Actor::Reference") }
 
     before do

@@ -8,9 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = EventSourcing::VERSION
   spec.authors       = ["Rodrigo Alvarez"]
   spec.email         = ["papipo@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Actor based EventSourcing framework for ruby.}
+  spec.homepage      = "https://github.com/Papipo/event_sourcing"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

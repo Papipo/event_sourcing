@@ -5,7 +5,7 @@ guard 'spinach', all_on_start: false, backtrace: true do
   end
 end
 
-guard :rspec do
+guard :rspec, cmd: "bin/rspec --tty" do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib\/event_sourcing\/(.+)\.rb$}) { |m| "spec/unit/#{m[1]}_spec.rb" }
   watch('spec/unit_helper.rb')  { "spec" }

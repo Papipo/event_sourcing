@@ -11,8 +11,8 @@ module EventSourcing
 
           attr_reader :name
 
-          def run!(event_store:)
-            new(Array(event_store))
+          def run!(options = {})
+            new(Array(options[:event_store]))
           end
 
           def inspect

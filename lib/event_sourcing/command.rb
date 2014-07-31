@@ -9,11 +9,17 @@ module EventSourcing
         public_class_method :new
         attr_reader(*fields)
 
-        class_eval %{
-          def initialize(#{fields.map { |a| "#{a}:"}.join(',')})
-            #{fields.map { |f| "@#{f} = #{f}" }.join(';') }
+        define_method :initialize do |properties = {}|
+          missing_keys = fields - properties.keys
+          
+          if missing_keys.any?
+            raise ArgumentError, "missing keyword: #{missing_keys.first}"
           end
-        }
+
+          fields.each do |field|
+            instance_variable_set("@#{field}", properties[field])
+          end
+        end
 
         define_method :execute do |*args|
           instance_exec(*args, &block)

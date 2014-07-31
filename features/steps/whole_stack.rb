@@ -15,7 +15,7 @@ class Spinach::Features::WholeStack < Spinach::FeatureSteps
   end
 
   step 'an event is raised' do
-    sleep 1 #FIXME wait with timeout instead
+    sleep 0.01 #FIXME wait with timeout instead
     expect(File.read(SampleApp::Logger.file_path)).to eq("Post with title \"My post\" has been published!\n")
   end
 

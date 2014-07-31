@@ -9,13 +9,13 @@ SampleApp = EventSourcing::Application.new(:sample_app)
 SampleApp::PostPublished = EventSourcing::Event.define(:title)
 
 SampleApp::PublishPost   = EventSourcing::Command.define(:post_id, :title) do |aggregate_manager|
-  aggregate_manager.instance_of(SampleApp::Post, post_id).publish(title: title)
+  aggregate_manager.instance_of(SampleApp::Post, post_id).publish(title)
 end
 
 class SampleApp::Post
   include EventSourcing::Aggregate
 
-  def publish(title:)
+  def publish(title)
     ::SampleApp::PostPublished.new(title: title) unless @title
   end
 

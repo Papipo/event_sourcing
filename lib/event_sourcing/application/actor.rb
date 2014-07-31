@@ -8,6 +8,10 @@ module EventSourcing
     class Actor < Concurrent::Actor::RestartingContext
       require "event_sourcing/application/actor/reference"
 
+      def self.to_str #TODO Remove this. It's needed for specs passing under jruby O_o
+        to_s 
+      end
+
       def default_reference_class
         Reference
       end
