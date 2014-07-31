@@ -1,4 +1,3 @@
-
 module EventSourcing
   class Event
 
@@ -14,6 +13,10 @@ module EventSourcing
             #{fields.map { |f| "@#{f} = #{f}" }.join(';')}
           end
         }
+
+        def to_s
+          self.class.to_s
+        end
       end
     end
   end

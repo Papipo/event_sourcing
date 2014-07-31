@@ -1,5 +1,3 @@
-require "event_sourcing/version"
-
 module EventSourcing
-  # Your code goes here...
+  require "event_sourcing/version"
 end
