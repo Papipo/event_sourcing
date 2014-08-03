@@ -20,6 +20,10 @@ Or install it yourself as:
 
 TODO: Write usage instructions here
 
+## ToDo
+
+[Read TODO.md](TODO.md)
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/event_sourcing/fork )
