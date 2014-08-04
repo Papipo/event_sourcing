@@ -10,7 +10,7 @@ module EventSourcing
         end
 
         def terminate!
-          tell(:terminate!)
+          ask(:terminate!).wait
         end
 
         private
