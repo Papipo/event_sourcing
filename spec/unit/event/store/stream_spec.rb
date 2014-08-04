@@ -1,10 +1,10 @@
 require "unit_helper"
-require "event_sourcing/event/stream"
+require "event_sourcing/event/store/stream"
 
-describe EventSourcing::Event::Stream do
+describe EventSourcing::Event::Store::Stream do
 
   subject       { stream }
-  let(:stream)  { EventSourcing::Event::Stream.new("some-id", events, version, store) }
+  let(:stream)  { EventSourcing::Event::Store::Stream.new("some-id", events, version, store) }
   let(:events)  { [double("Event")] }
   let(:version) { 1 }
   let(:store)   { instance_double("EventSourcing::Event::Store::Memory") }
@@ -17,7 +17,7 @@ describe EventSourcing::Event::Stream do
     expect(subject.version).to eq(version)
   end
 
-  context "push" do
+  context "append" do
     after do
       stream.append(events)
     end

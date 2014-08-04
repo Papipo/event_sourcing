@@ -5,7 +5,6 @@ _________
 - Ensure fault-tolerance in the whole stack.
 - Add Event ACK/Recovery.
 - Terminate inactive aggregates on a configurable timeout.
-- Refactor the whole Aggregate::Actor + Event Bus/Store tangle.
 - Ensure that Aggregate::Actor instances are removed from Manager::Cache on termination.
 - Implement more Event::Store backends (MongoDB, PostgreSQL)
 

@@ -3,18 +3,18 @@ require "event_sourcing/event/bus/reference"
 
 describe EventSourcing::Event::Bus::Reference do
   let(:bus_ref) { actor_reference(EventSourcing::Event::Bus::Reference) }
-  let(:stream) { instance_double("EventSourcing::Event::Stream") }
+  let(:store_stream) { instance_double("EventSourcing::Event::Bus::Stream") }
 
   context "get_stream" do
     let(:store) { instance_double("EventSourcing::Event::Store::Memory") }
 
     before do
       allow(bus_ref).to receive(:ask!).once.with(:get_event_store).and_return(store)
-      allow(store).to receive(:get_stream).with("some-id").and_return(stream)
+      allow(store).to receive(:get_stream).with("some-id").and_return(store_stream)
     end
 
     it "returns a stream from the event store" do
-      expect(bus_ref.get_stream("some-id")).to eq(stream)
+      expect(bus_ref.get_stream("some-id")).to eq(EventSourcing::Event::Bus::Stream.new(store_stream, bus_ref))
     end
 
     it "memoizes the store" do

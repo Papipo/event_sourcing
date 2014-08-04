@@ -1,6 +1,6 @@
 require "event_sourcing/event"
 require "event_sourcing/event/store"
-require "event_sourcing/event/stream"
+require "event_sourcing/event/store/stream"
 
 module EventSourcing
   class Event
@@ -16,7 +16,7 @@ module EventSourcing
 
         def get_stream(id)
           events = events_for(id)
-          EventSourcing::Event::Stream.new(id, events, events.count, self)
+          EventSourcing::Event::Store::Stream.new(id, events, events.count, self)
         end
 
         def append(stream_id, expected_version, events)
@@ -29,9 +29,6 @@ module EventSourcing
           end
           nil
         end
-
-        alias_method :<<,   :append
-        alias_method :push, :append
 
         protected
         def events_for(stream_id)

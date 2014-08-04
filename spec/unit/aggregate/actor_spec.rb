@@ -18,14 +18,12 @@ describe EventSourcing::Aggregate::Actor do
     subject { actor }
     let(:aggregate_class) { double("Aggregate class", new: aggregate_instance, instance_methods: [:publish])}
     let(:aggregate_instance) { double("Aggregate instance", publish: :published)}
-    let(:event_stream) { instance_double("EventSourcing::Event::Stream") }
-    let(:event_bus)    { instance_double("EventSourcing::Event::Bus::Reference") }
-    let(:actor) { EventSourcing::Aggregate::Actor.for(aggregate_class).new(event_bus, event_stream) }
+    let(:event_stream) { instance_double("EventSourcing::Event::Bus::Stream") }
+    let(:actor) { EventSourcing::Aggregate::Actor.for(aggregate_class).new(event_stream) }
 
     before do
       allow(aggregate_instance).to receive(:_apply).with(:published)
-      allow(event_bus).to receive(:publish)
-      allow(event_stream).to receive(:append)
+      allow(event_stream).to receive(:<<)
     end
     
     context "when receiving supported messages" do
@@ -33,12 +31,8 @@ describe EventSourcing::Aggregate::Actor do
         subject.on_message([:publish, :some_arg])
       end
 
-      it "stores the events using the stream" do
-        expect(event_stream).to receive(:append).with(:published)
-      end
-
-      it "delegates on aggregate and publishes events" do
-        expect(event_bus).to receive(:publish).with(:published)
+      it "publishes the events using the stream" do
+        expect(event_stream).to receive(:<<).with(:published)
       end
 
       it "gets events applied" do
@@ -52,7 +46,7 @@ describe EventSourcing::Aggregate::Actor do
       end
 
       it "does nothing" do
-        expect(event_bus).not_to receive(:publish)
+        expect(event_stream).not_to receive(:<<)
       end
     end
   end

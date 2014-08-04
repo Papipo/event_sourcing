@@ -9,7 +9,7 @@ module EventSourcing
         end
 
         def instance_of(aggregate, id)
-          self[id] ||= aggregate::Actor.spawn!(name: id, supervise: true, args: [@event_bus, @event_bus.get_stream(id)])
+          self[id] ||= aggregate::Actor.spawn!(name: id, supervise: true, args: [@event_bus.get_stream(id)])
         end
       end
     end

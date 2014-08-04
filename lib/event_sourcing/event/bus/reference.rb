@@ -1,5 +1,6 @@
 require "concurrent/actor"
 require "event_sourcing/event/bus"
+require "event_sourcing/event/bus/stream"
 
 module EventSourcing
   class Event
@@ -11,7 +12,7 @@ module EventSourcing
         end
 
         def get_stream(id)
-          store.get_stream(id)
+          Bus::Stream.new(store.get_stream(id), self)
         end
 
         private
