@@ -21,6 +21,7 @@ class Spinach::Features::WholeStack < Spinach::FeatureSteps
 
   after do
     @app.shutdown if @app
+    sleep 0.01 # FIXME shouldn't need this
   end
 
   def event_store
