@@ -19,7 +19,7 @@ describe EventSourcing::Aggregate::Actor do
     let(:actor) { EventSourcing::Aggregate::Actor.for(aggregate_class).new(event_bus, "some-id") }
     let(:event_bus)          { instance_double("EventSourcing::Event::Bus::Reference") }
     let(:event_stream)       { instance_double("EventSourcing::Event::Bus::Stream") }
-    let(:new_event_stream)   { instance_double("EventSourcing::Event::Bus::Stream new") }
+    let(:new_event_stream)   { instance_double("EventSourcing::Event::Bus::Stream") }
     let(:aggregate_class)    { double("Aggregate class", new: aggregate_instance, instance_methods: [:publish])}
     let(:aggregate_instance) { double("Aggregate instance", publish: :published)}
     
