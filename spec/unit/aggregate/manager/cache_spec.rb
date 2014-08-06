@@ -8,12 +8,10 @@ describe EventSourcing::Aggregate::Manager::Cache do
   let(:actor)     { double("Actor")}
   let(:instance)  { double("Aggregate instance") }
   let(:event_bus) { instance_double("EventSourcing::Event::Bus::Reference") }
-  let(:event_stream) { instance_double("EventSourcing::Event::Bus::Stream") }
 
   before do
-    allow(event_bus).to receive(:get_stream).with("some-id").and_return(event_stream)
     aggregate.const_set("Actor", actor)
-    allow(actor).to receive(:spawn!).once.with(name: "some-id", args: [event_stream], supervise: true).and_return(instance)
+    allow(actor).to receive(:spawn!).once.with(name: "some-id", args: [event_bus, "some-id"], supervise: true).and_return(instance)
   end
 
   it "returns instances" do

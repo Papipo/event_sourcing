@@ -6,11 +6,24 @@ require "event_sourcing/aggregate"
 
 SampleApp = EventSourcing::Application.new(:sample_app)
 
-SampleApp::PostPublished = EventSourcing::Event.define(:title)
+class SampleApp
+  PostPublished = EventSourcing::Event.define(:title)
+  PostRenamed   = EventSourcing::Event.define(:title)
 
-SampleApp::PublishPost   = EventSourcing::Command.define(:post_id, :title) do |aggregate_manager|
-  aggregate_manager.instance_of(SampleApp::Post, post_id).publish(title)
+  PublishPost   = EventSourcing::Command.define(:post_id, :title) do |aggregate_manager|
+    aggregate_manager.instance_of(SampleApp::Post, post_id).publish(title)
+  end
+
+  BrokenCommand = EventSourcing::Command.define(:post_id) do |aggregate_manager|
+    aggregate_manager.instance_of(SampleApp::Post, post_id).broken_method
+  end
+
+  RenamePost = EventSourcing::Command.define(:post_id, :title) do |aggregate_manager|
+    aggregate_manager.instance_of(SampleApp::Post, post_id).rename(title)
+  end
 end
+
+
 
 class SampleApp::Post
   include EventSourcing::Aggregate
@@ -19,7 +32,19 @@ class SampleApp::Post
     ::SampleApp::PostPublished.new(title: title) unless @title
   end
 
+  def rename(title)
+    ::SampleApp::PostRenamed.new(title: title)
+  end
+
+  def broken_method
+    raise "This method is broken"
+  end
+
   handle ::SampleApp::PostPublished do |e|
+    @title = e.title
+  end
+
+  handle ::SampleApp::PostRenamed do |e|
     @title = e.title
   end
 end

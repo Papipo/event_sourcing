@@ -1,16 +1,10 @@
+require "values"
+
 module EventSourcing
   class Event
     module Store
-      class Stream
-        attr_reader :version
+      class Stream < Value.new(:id, :events, :version, :store)
         include Enumerable
-        
-        def initialize(id, events, version, store)
-          @id       = id
-          @events  = events
-          @version = version
-          @store   = store
-        end
 
         def each(&block)
           @events.each(&block)

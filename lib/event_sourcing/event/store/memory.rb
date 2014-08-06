@@ -27,7 +27,7 @@ module EventSourcing
               @events_with_stream_id.push(stream_id: stream_id, event: event)
             end
           end
-          nil
+          get_stream(stream_id)
         end
 
         protected

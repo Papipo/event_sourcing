@@ -7,8 +7,9 @@ module EventSourcing
         include Enumerable
         
         def <<(events)
-          store_stream.append(events)
+          new_stream = store_stream.append(events)
           event_bus.publish(events)
+          self.class.new(new_stream, event_bus)
         end
 
         def each(&block)

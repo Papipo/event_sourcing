@@ -18,13 +18,16 @@ describe EventSourcing::Event::Store::Stream do
   end
 
   context "append" do
-    after do
-      stream.append(events)
+    let(:new_stream) { instance_double("EventSourcing::Event::Store::Stream") }
+
+    before do
+      allow(store).to receive(:append).with("some-id", version, events).and_return(new_stream)
     end
 
-    it "pushes events into the event store" do
-      expect(store).to receive(:append).with("some-id", version, events)
-    end
+    subject { stream.append(events) }
 
+    it "pushes events into the event store and returns a new stream" do
+      expect(subject).to eq(new_stream)
+    end
   end
 end

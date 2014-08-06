@@ -9,8 +9,10 @@ RSpec.shared_examples "a store implementation" do
   end
 
   context "append" do
-    it "returns nil, since it's a command" do
-      expect(subject.append("stream-id", 0, event)).to be_nil
+    let(:new_event_stream) { EventSourcing::Event::Store::Stream.new("some-id", [event], 1, subject) }
+    
+    it "returns a new event stream" do
+      expect(subject.append("stream-id", 0, event)).to eq(new_event_stream)
     end
 
     it "does nothing if no events are passed to it" do

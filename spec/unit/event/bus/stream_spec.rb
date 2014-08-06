@@ -11,19 +11,22 @@ describe EventSourcing::Event::Bus::Stream do
   end
 
   context "<<" do
-    after { bus_stream << event }
+    subject { bus_stream << event }
     let(:event) { instance_double("EventSourcing::Event") }
+    let(:new_store_stream) { instance_double("EventSourcing::Event::Store::Stream") }
+
     before do
+      allow(store_stream).to receive(:append).with(event).and_return(new_store_stream)
       allow(event_bus).to receive(:publish)
-      allow(store_stream).to receive(:append)
     end
     
-    it "appends the event(s) to the store stream" do
-      expect(store_stream).to receive(:append).with(event)
+    it "appends the event(s) to the store stream and returns a new stream" do
+      expect(subject).to eq(EventSourcing::Event::Bus::Stream.new(new_store_stream, event_bus))
     end
 
     it "publishes events to the event bus" do
       expect(event_bus).to receive(:publish).with(event)
+      subject
     end
   end
 

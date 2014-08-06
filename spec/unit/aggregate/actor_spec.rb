@@ -16,14 +16,18 @@ describe EventSourcing::Aggregate::Actor do
 
   context "instance" do
     subject { actor }
-    let(:aggregate_class) { double("Aggregate class", new: aggregate_instance, instance_methods: [:publish])}
+    let(:actor) { EventSourcing::Aggregate::Actor.for(aggregate_class).new(event_bus, "some-id") }
+    let(:event_bus)          { instance_double("EventSourcing::Event::Bus::Reference") }
+    let(:event_stream)       { instance_double("EventSourcing::Event::Bus::Stream") }
+    let(:new_event_stream)   { instance_double("EventSourcing::Event::Bus::Stream new") }
+    let(:aggregate_class)    { double("Aggregate class", new: aggregate_instance, instance_methods: [:publish])}
     let(:aggregate_instance) { double("Aggregate instance", publish: :published)}
-    let(:event_stream) { instance_double("EventSourcing::Event::Bus::Stream") }
-    let(:actor) { EventSourcing::Aggregate::Actor.for(aggregate_class).new(event_stream) }
-
+    
     before do
       allow(aggregate_instance).to receive(:_apply).with(:published)
-      allow(event_stream).to receive(:<<)
+      allow(event_bus).to receive(:get_stream).with("some-id").and_return(event_stream)
+      allow(event_stream).to receive(:<<).and_return(new_event_stream)
+      allow(new_event_stream).to receive(:<<)
     end
     
     context "when receiving supported messages" do
@@ -38,6 +42,20 @@ describe EventSourcing::Aggregate::Actor do
       it "gets events applied" do
         expect(aggregate_instance).to receive(:_apply).with(:published)
       end   
+
+      context "followed by further messages" do
+        after do
+          subject.on_message([:publish, :some_arg])
+        end
+
+        it "does not use a stale event stream" do
+          expect(event_stream).to receive(:<<).once
+        end
+
+        it "does use a new event stream" do
+          expect(new_event_stream).to receive(:<<).with(:published)
+        end
+      end
     end
 
     context "when receiving unsupported messages" do
