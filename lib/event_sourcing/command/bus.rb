@@ -1,4 +1,5 @@
 require "concurrent/actor"
+require "event_sourcing/command"
 
 module EventSourcing
   class Command

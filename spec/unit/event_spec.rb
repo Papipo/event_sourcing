@@ -3,6 +3,16 @@ require "event_sourcing/event"
 
 describe EventSourcing::Event do
 
+  module SampleNamespace
+    SomeEvent = EventSourcing::Event.define
+  end
+
+  let(:event) { SampleNamespace::SomeEvent.new }
+
+  it "can be inspected" do
+    expect(event.to_s).to eq("SampleNamespace::SomeEvent")
+  end
+
   it "can't be directly instantiated" do
     expect { EventSourcing::Event.new }.to raise_error(NoMethodError)
   end
