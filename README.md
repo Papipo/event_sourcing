@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/Papipo/event_sourcing.svg?branch=master)](https://travis-ci.org/Papipo/event_sourcing)
+[![Code Climate](https://codeclimate.com/github/Papipo/event_sourcing/badges/gpa.svg)](https://codeclimate.com/github/Papipo/event_sourcing)
+[![Test Coverage](https://codeclimate.com/github/Papipo/event_sourcing/badges/coverage.svg)](https://codeclimate.com/github/Papipo/event_sourcing)
+
 # EventSourcing
 
 EventSourcing, as its name suggests, is an Actor based Event Sourcing library for ruby.

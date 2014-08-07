@@ -39,7 +39,7 @@ class Spinach::Features::WholeStack < Spinach::FeatureSteps
 
   after do
     @app.shutdown if @app
-    sleep 0.01 # FIXME shouldn't need this
+    sleep 0.05 # FIXME shouldn't need this
   end
 
   private
@@ -57,6 +57,6 @@ class Spinach::Features::WholeStack < Spinach::FeatureSteps
 
   def send_command(command)
     @app.execute_command command
-    sleep 0.01 #FIXME: Should support simultaneous commands
+    sleep 0.05 #FIXME: Should support simultaneous commands
   end
 end

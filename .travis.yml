@@ -1,0 +1,6 @@
+language: ruby
+rvm:
+  - jruby-19mode
+addons:
+  code_climate:
+    repo_token: a2e21dcf37cd065e0b47e01908aa227fb9c833fc34c4cf2f58fe697bae00deea
