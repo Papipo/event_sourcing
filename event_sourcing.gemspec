@@ -17,13 +17,13 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "values"
+  spec.add_dependency "values", "~> 1.5"
   spec.add_dependency "concurrent-ruby", "~> 0.7.1"
 
-  spec.add_development_dependency "bundler", "~> 1.6"
+  spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake"
-  spec.add_development_dependency "rspec"
-  spec.add_development_dependency "spinach"
+  spec.add_development_dependency "rspec",   "~> 3.1"
+  spec.add_development_dependency "spinach", "~> 0.8.10"
   spec.add_development_dependency "guard-spinach"
   spec.add_development_dependency "guard-rspec"
 end
