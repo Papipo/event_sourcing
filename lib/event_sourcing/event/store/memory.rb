@@ -22,10 +22,8 @@ module EventSourcing
         def append(stream_id, expected_version, events)
           raise EventSourcing::Event::Store::ConcurrencyError if get_stream(stream_id).version != expected_version
 
-          Array(events).tap do |events|
-            events.each do |event|
-              @events_with_stream_id.push(stream_id: stream_id, event: event)
-            end
+          Array(events).each do |event|
+            @events_with_stream_id.push(stream_id: stream_id, event: event)
           end
           get_stream(stream_id)
         end
